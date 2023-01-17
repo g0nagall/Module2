@@ -1,3 +1,5 @@
+package shoppingCart;
+
 import java.util.*;
 import java.text.*;
 /**
@@ -85,12 +87,9 @@ public class ShoppingCart {
         // column max length
         int[] width = new int[]{0,0,0,0,0,0};
         for (String[] line : lines)
-            for (int i = 0; i < line.length; i++)
-                width[i] = (int) Math.max(width[i], line[i].length());
-        for (int i = 0; i < header.length; i++)
-            width[i] = (int) Math.max(width[i], header[i].length());
-        for (int i = 0; i < footer.length; i++)
-            width[i] = (int) Math.max(width[i], footer[i].length());
+            adjustColumnWidth(width, line);
+        adjustColumnWidth(width, header);
+        adjustColumnWidth(width, footer);
         // line length
         int lineLength = width.length - 1;
         for (int w : width)
@@ -128,6 +127,10 @@ public class ShoppingCart {
         symbols.setDecimalSeparator('.');
         MONEY = new DecimalFormat("$#.00", symbols);
     }
+    private static void adjustColumnWidth(int[] width, String[] columns){
+        for(int i = 0; i < width.length; i++)
+            width[i] = (int) Math.max(width[i], columns[i].length());
+    }
     /**
      * Appends to sb formatted value.
      * Trims string if its length > width.
@@ -147,6 +150,9 @@ public class ShoppingCart {
             sb.append(" ");
         sb.append(" ");
     }
+
+
+
     /**
      * Calculates item's discount.
      * For NEW item discount is 0%;
