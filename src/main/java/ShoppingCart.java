@@ -6,7 +6,7 @@ import java.text.*;
  * Containing items and calculating price.
  */
 public class ShoppingCart {
-    public static enum ItemType { NEW, REGULAR, SECOND_FREE, SALE };
+    public enum ItemType { NEW, REGULAR, SECOND_FREE, SALE };
     /**
      * Tests all class methods.
      */
@@ -63,7 +63,7 @@ public class ShoppingCart {
     public String formatTicket(){
         if (items.size() == 0)
             return "No items.";
-        List<String[]> lines = new ArrayList<String[]>();
+        List<String[]> lines = new ArrayList<>();
         String[] header = {"#","Item","Price","Quan.","Discount","Total"};
         int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
         // formatting each line
@@ -77,7 +77,7 @@ public class ShoppingCart {
                     item.title,
                     MONEY.format(item.price),
                     String.valueOf(item.quantity),
-                    (discount == 0) ? "-" : (String.valueOf(discount) + "%"),
+                    (discount == 0) ? "-" : (discount + "%"),
                     MONEY.format(itemTotal)
             });
             total += itemTotal;
@@ -105,10 +105,8 @@ public class ShoppingCart {
             formatTicketAppendLine(sb, line, align, width);
             sb.append("\n");
         }
-        if (lines.size() > 0) {
-            // separator
-            formatTicketSeparator(lineLength, sb);
-        }
+        // separator
+        formatTicketSeparator(lineLength, sb);
         // footer
         formatTicketAppendLine(sb, footer, align, width);
         return sb.toString();
@@ -172,9 +170,6 @@ public class ShoppingCart {
         switch (type) {
             case NEW:
                 return 0;
-            case REGULAR:
-                discount = 0;
-                break;
             case SECOND_FREE:
                 if (quantity > 1)
                     discount = 50;
@@ -183,11 +178,9 @@ public class ShoppingCart {
                 discount = 70;
                 break;
         }
-        if (discount < 80) {
-            discount += quantity / 10;
-            if (discount > 80)
-                discount = 80;
-        }
+        discount += quantity / 10;
+        if (discount > 80)
+            discount = 80;
         return discount;
     }
     /** item info */
@@ -198,5 +191,5 @@ public class ShoppingCart {
         ItemType type;
     }
     /** Container for added items */
-    private List<Item> items = new ArrayList<Item>();
+    private List<Item> items = new ArrayList<>();
 }
