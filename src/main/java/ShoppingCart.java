@@ -96,30 +96,35 @@ public class ShoppingCart {
             lineLength += w;
         StringBuilder sb = new StringBuilder();
         // header
-        for (int i = 0; i < header.length; i++)
-            appendFormatted(sb, header[i], align[i], width[i]);
+        FormatTicketAppendLine(sb, header, align, width);
         sb.append("\n");
         // separator
-        for (int i = 0; i < lineLength; i++)
-            sb.append("-");
-        sb.append("\n");
+        FormatTicketSeparator(lineLength, sb);
         // lines
         for (String[] line : lines) {
-            for (int i = 0; i < line.length; i++)
-                appendFormatted(sb, line[i], align[i], width[i]);
+            FormatTicketAppendLine(sb, line, align, width);
             sb.append("\n");
         }
         if (lines.size() > 0) {
             // separator
-            for (int i = 0; i < lineLength; i++)
-                sb.append("-");
-            sb.append("\n");
+            FormatTicketSeparator(lineLength, sb);
         }
         // footer
-        for (int i = 0; i < footer.length; i++)
-            appendFormatted(sb, footer[i], align[i], width[i]);
+        FormatTicketAppendLine(sb, footer, align, width);
         return sb.toString();
     }
+
+    private void FormatTicketAppendLine(StringBuilder sb, String[] line, int[] align, int[] width) {
+        for (int i = 0; i < line.length; i++)
+            appendFormatted(sb, line[i], align[i], width[i]);
+    }
+
+    private void FormatTicketSeparator(int lineLength, StringBuilder sb) {
+        for (int i = 0; i < lineLength; i++)
+            sb.append("-");
+        sb.append("\n");
+    }
+
     // --- private section -----------------------------------------------------
     private static final NumberFormat MONEY;
     static {
@@ -131,6 +136,7 @@ public class ShoppingCart {
         for(int i = 0; i < width.length; i++)
             width[i] = (int) Math.max(width[i], columns[i].length());
     }
+
     /**
      * Appends to sb formatted value.
      * Trims string if its length > width.

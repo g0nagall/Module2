@@ -14,7 +14,6 @@ class ShoppingCartTest {
 
     @Test
     void mainTest() {
-        System.out.println("* UtilsJUnit5Test: test method – main()");
         ShoppingCart.main(new String[]{"args"});
     }
 
