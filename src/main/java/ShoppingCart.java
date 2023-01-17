@@ -67,11 +67,9 @@ public class ShoppingCart {
         String[] header = {"#","Item","Price","Quan.","Discount","Total"};
         int[] align = new int[] { 1, -1, 1, 1, 1, 1 };
         // formatting each line
-        double total = 0.00;
+        double total = getTotal(items);
         int index = 0;
         for (Item item : items) {
-            item.setDiscount(calculateDiscount(item.type, item.quantity));
-            item.setTotalPrice(item.getPrice() * item.getQuantity() * (100.00 - item.getDiscount()) / 100.00);
             lines.add(new String[]{
                     String.valueOf(++index),
                     item.getTitle(),
@@ -80,7 +78,6 @@ public class ShoppingCart {
                     (item.getDiscount() == 0) ? "-" : (item.getDiscount() + "%"),
                     MONEY.format(item.getTotalPrice())
             });
-            total += item.getTotalPrice();
         }
         String[] footer = { String.valueOf(index),"","","","", MONEY.format(total) };
         // formatting table
@@ -110,6 +107,17 @@ public class ShoppingCart {
         // footer
         formatTicketAppendLine(sb, footer, align, width);
         return sb.toString();
+    }
+
+    private double getTotal(List<Item> items) {
+        double total = 0.00;
+        int index = 0;
+        for (Item item : items) {
+            item.setDiscount(calculateDiscount(item.getItemType(), item.getQuantity()));
+            item.setTotalPrice(item.getPrice() * item.getQuantity() * (100.00 - item.getDiscount()) / 100.00);
+            total += item.getTotalPrice();
+        }
+        return total;
     }
 
     private void formatTicketAppendLine(StringBuilder sb, String[] line, int[] align, int[] width) {
