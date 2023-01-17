@@ -96,30 +96,30 @@ public class ShoppingCart {
             lineLength += w;
         StringBuilder sb = new StringBuilder();
         // header
-        FormatTicketAppendLine(sb, header, align, width);
+        formatTicketAppendLine(sb, header, align, width);
         sb.append("\n");
         // separator
-        FormatTicketSeparator(lineLength, sb);
+        formatTicketSeparator(lineLength, sb);
         // lines
         for (String[] line : lines) {
-            FormatTicketAppendLine(sb, line, align, width);
+            formatTicketAppendLine(sb, line, align, width);
             sb.append("\n");
         }
         if (lines.size() > 0) {
             // separator
-            FormatTicketSeparator(lineLength, sb);
+            formatTicketSeparator(lineLength, sb);
         }
         // footer
-        FormatTicketAppendLine(sb, footer, align, width);
+        formatTicketAppendLine(sb, footer, align, width);
         return sb.toString();
     }
 
-    private void FormatTicketAppendLine(StringBuilder sb, String[] line, int[] align, int[] width) {
+    private void formatTicketAppendLine(StringBuilder sb, String[] line, int[] align, int[] width) {
         for (int i = 0; i < line.length; i++)
             appendFormatted(sb, line[i], align[i], width[i]);
     }
 
-    private void FormatTicketSeparator(int lineLength, StringBuilder sb) {
+    private void formatTicketSeparator(int lineLength, StringBuilder sb) {
         for (int i = 0; i < lineLength; i++)
             sb.append("-");
         sb.append("\n");
